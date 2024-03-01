@@ -40,7 +40,7 @@ const Navbar = () => {
         <div className="lg:hidden flex justify-between items-center p-4">
           <FiMenu onClick={toggleSidebar} className="text-purple-600 hover:text-purple-800 cursor-pointer" />
           <a href="/" className="text-2xl text-gray-700 font-extrabold my-2">
-            ANAROCK
+          Flexeere
           </a>
         </div>
         
@@ -75,7 +75,7 @@ const Navbar = () => {
             <a href="#" className="font-bold text-gray-700 hover:text-purple-500 transition duration-300">Technology</a>
           </div>
           <a href="/" className="text-3xl text-gray-700 font-extrabold my-2 relative">
-            ANAROCK
+          Flexeere
             <span className="absolute left-0 right-0 h-1 bg-purple-600" style={{ bottom: '-0.25rem' }}></span>
             <span className="text-xs font-light absolute left-0 right-0" style={{ bottom: '-1.5rem' }}>VALUES OVER VALUE</span>
           </a>
