@@ -1,19 +1,14 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 import { TabsTrigger, TabsList, Tabs } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
-import { motion } from 'framer-motion';
-import { tabContent } from './cardsdata';
-
+import { tabContent } from './cardsdata'; // Make sure this path is correct
 
 const CarouselData = () => {
-  const carouselRef = useRef(null);
+  const controls = useAnimation();
   const [activeTab, setActiveTab] = useState('research');
   const [isMobile, setIsMobile] = useState(false);
-  const [isHoveringLeft, setIsHoveringLeft] = useState(false);
-  const [isHoveringRight, setIsHoveringRight] = useState(false);
-  let animationFrameId: any;
 
   useEffect(() => {
     const updateScreenSize = () => {
@@ -26,35 +21,27 @@ const CarouselData = () => {
     return () => window.removeEventListener('resize', updateScreenSize);
   }, []);
 
-  const scrollCarousel = () => {
-    if (carouselRef.current) {
-      (carouselRef.current as HTMLDivElement).scrollLeft += isHoveringLeft ? -2 : 2; // Adjust the scroll speed if needed
-      animationFrameId = window.requestAnimationFrame(scrollCarousel);
-    }
-  };
-
   useEffect(() => {
-    animationFrameId = window.requestAnimationFrame(scrollCarousel);
+    const cycleDuration = 10; // Duration in seconds for one complete cycle
+    controls.start({
+      translateX: ['-100%', '0%'], // Adjust these values based on your carousel's width
+      transition: { repeat: Infinity, duration: cycleDuration, ease: "linear" },
+    });
+  }, [controls, activeTab]);
 
-    return () => {
-      window.cancelAnimationFrame(animationFrameId);
-    };
-  }, [isHoveringLeft, isHoveringRight]); // Re-run the effect if hovering state changes
-
-  // Handlers to set the hovering state based on mouse position
-  const handleMouseOver = (position: any) => {
-    if (position === 'left') {
-      setIsHoveringLeft(true);
-      setIsHoveringRight(false);
-    } else if (position === 'right') {
-      setIsHoveringRight(true);
-      setIsHoveringLeft(false);
-    }
+  const handleMouseEnter = (speedAdjustment: number) => {
+    controls.stop();
+    controls.start({
+      translateX: ['-100%', '0%'],
+      transition: { repeat: Infinity, duration: 1000 / speedAdjustment, ease: "linear" },
+    });
   };
 
-  const handleMouseOut = () => {
-    setIsHoveringLeft(false);
-    setIsHoveringRight(false);
+  const handleMouseLeave = () => {
+    controls.start({
+      translateX: ['-100%', '0%'],
+      transition: { repeat: Infinity, duration: 10, ease: "linear" },
+    });
   };
 
   return (
@@ -74,11 +61,8 @@ const CarouselData = () => {
           ))}
         </TabsList>
       </Tabs>
-      <div className="relative" ref={carouselRef}
-        onMouseOver={() => window.cancelAnimationFrame(animationFrameId)}
-        onMouseOut={() => (animationFrameId = window.requestAnimationFrame(scrollCarousel))}
-      >
-       <div className="carousel-container flex space-x-4 snap-x snap-mandatory">
+      <div onMouseEnter={() => handleMouseEnter(2)} onMouseLeave={handleMouseLeave}>
+        <motion.div className="carousel-container flex space-x-4" animate={controls}>
           {tabContent[activeTab].map((card, index) => (
             <Card key={index} className="carousel-card w-[300px] shrink-0">
               <CardHeader>
@@ -97,9 +81,10 @@ const CarouselData = () => {
               </CardContent>
             </Card>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 };
+
 export default CarouselData;

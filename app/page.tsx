@@ -12,7 +12,7 @@ export default function Home() {
   const heroImages = [heroImage1, heroImage2, heroImage3, heroImage4];
 
   return (
-    <>
+    <main className='overflow-hidden'>
       <Navbar />
       <HeroSection
         title="Fuelling Growth through Innovation"
@@ -22,6 +22,6 @@ export default function Home() {
         buttonLink="/services"
       />
       <CarouselData />
-    </>
+    </main>
   );
 }
