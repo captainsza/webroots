@@ -9,7 +9,7 @@ const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navbarAnimation = useSpring({
-    height: isScrolled ? '120px' : '150px',
+    height: isScrolled ? '130px' : '150px',
     background: isScrolled ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 1)",
     boxShadow: isScrolled ? "0 2px 15px rgba(0, 0, 0, 0.1)" : "0 1px 10px rgba(0, 0, 0, 0)",
   });
