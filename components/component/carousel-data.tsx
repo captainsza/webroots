@@ -45,7 +45,7 @@ const CarouselData = () => {
   };
 
   return (
-    <section className="h-[800px] w-full overflow-hidden">
+    <section className="overflow-hidden  mb-16">
       <h2 className="text-4xl font-bold mb-4">Latest in Real Estate</h2>
       <Tabs className="mb-8">
         <TabsList>
